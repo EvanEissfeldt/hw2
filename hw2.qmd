@@ -274,10 +274,11 @@ Linear regression using `lm`
 Perform a simple linear regression with `diameter` as the covariate and `height` as the response. Interpret the model coefficients and their significance values. 
 
 
-```R
-... # Insert your code here
+```{R}
+linear_model <- lm(height ~ diameter, data = df)
+summary(linear_model)
 ```
-
+The intercept is not meaningful because we do not have cases where diameter is zero. The residual standard error is an estimation of the standard deviation. The multiple and adjusted R-squared is saying that 69.5% of the variability in the height can be explained by the diameter. The very small p-value indicates that this model is meaningful.
 
 
 ---
@@ -287,10 +288,11 @@ Perform a simple linear regression with `diameter` as the covariate and `height`
 Make a scatterplot of `height` vs `diameter` and plot the regression line in `color="red"`. You can use the base `plot()` function in R for this. Is the linear model an appropriate fit for this relationship? Explain. 
 
 
-```R
-... # Insert your code here
+```{R}
+plot(df$diameter, df$height)
+abline(lm(height ~ diameter, data = df), col = "red")
 ```
-
+Yes, the linear model is an appropriate fit for this relationship, as the regression line travers directly through the center of the plotted points. The points are closely grouped around the line with very little outliers.
 
 
 ---
@@ -299,7 +301,7 @@ Make a scatterplot of `height` vs `diameter` and plot the regression line in `co
 
 Suppose we have collected observations for "new" abalones with `new_diameter` values given below. What is the expected value of their `height` based on your model above? Plot these new observations along with your predictions in your plot from earlier using `color="violet"`
 
-```R
+```{R}
 
 new_diameters <- c(
   0.15218946,
@@ -314,8 +316,14 @@ new_diameters <- c(
   0.01209518
 )
 
-
-... # Insert your code here. 
+new_data <- data.frame(diameter = new_diameters)
+predicted_height <- predict(linear_model, newdata = new_data)
+predicted_height
+```
+```{R}
+plot(df$diameter, df$height)
+abline(lm(height ~ diameter, data = df), col = "red")
+points(new_diameters, predicted_height, col = "violet")
 ```
 
 
